@@ -1,0 +1,901 @@
+{
+	"info": {
+		"_postman_id": "cf79d4da-f951-486f-b40f-65b054d9b224",
+		"name": "CiscoLive",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"dnac-token\", data.Token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "C1sco12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/system/api/v1/auth/token",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"system",
+						"api",
+						"v1",
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Site",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"type\": \"floor\",\r\n\"site\": {\r\n\"area\": {\r\n\"name\": \"New York\",\r\n\"parentName\": \"Global/United States\"\r\n},\r\n\"building\": {\r\n\"name\": \"Penn Plaza\",\r\n\"address\": \"250 West 34th Street Manhattan, New York\"\r\n},\r\n\"floor\" : {\r\n\"name\": \"Floor_2\",\r\n\"parentName\": \"Global/United States/New York/Penn Plaza\",\r\n\"rfModel\": \"Cubes And Walled Offices\",\r\n\"width\": 100,\r\n\"length\": 100,\r\n\"height\": 10\r\n}\r\n}\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/site",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"site"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create CLI credentials",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n \"description\": \"admin-cli\",\r\n \"username\": \"admin\",\r\n \"password\": \"C1sco12345\",\r\n \"enablePassword\": \"C1sco12345\",\r\n \"credentialType\": \"GLOBAL\"\r\n}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/global-credential/cli",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"global-credential",
+						"cli"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SNMPv2cRead Credential",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n \"credentialType\": \"GLOBAL\",\r\n \"description\": \"SNMP read community\",\r\n \"readCommunity\": \"public\"\r\n }]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/global-credential/snmpv2-read-community",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"global-credential",
+						"snmpv2-read-community"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SNMPv2cWrite Credential",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n \"credentialType\": \"GLOBAL\",\r\n \"description\": \"SNMP write community\",\r\n \"writeCommunity\": \"private\"\r\n}]\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/global-credential/snmpv2-write-community",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"global-credential",
+						"snmpv2-write-community"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of all credentials",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/device-credential",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"device-credential"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Discover Device",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\": \"discover-device-1\",\r\n \"discoveryType\": \"Range\",\r\n \"ipAddressList\": \"198.19.1.2-198.19.1.2\",\r\n \"protocolOrder\": \"ssh\",\r\n \"timeOut\": 5,\r\n \"retryCount\": 3,\r\n \"globalCredentialIdList\": [\r\n \"de9e3dba-d093-4384-8b27-493e7e887927\",\r\n \"3f2104ed-00b2-4aff-b7dc-540fc99e6b12\",\r\n \"58ee963b-19d8-43c4-8b40-24a67be81fa1\"\r\n ],\r\n \"preferredMgmtIPMethod\":\"UseLoopBack\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/discovery",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"discovery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Discovery",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/discovery/count",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"discovery",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get SiteID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/site",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"site"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign device to site",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"device\": [\r\n {\r\n \"ip\": \"198.19.1.2\"\r\n }\r\n]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/system/api/v1/site/d9d2a16b-95e9-44c0-ab61-f85942c0da85/device",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"system",
+						"api",
+						"v1",
+						"site",
+						"d9d2a16b-95e9-44c0-ab61-f85942c0da85",
+						"device"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Template ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v2/template-programmer/project",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v2",
+						"template-programmer",
+						"project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deploy Template to device",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"forcePushTemplate\": false,\r\n    \"targetInfo\":[\r\n        {\r\n            \"id\": \"198.19.1.2\",\r\n            \"type\": \"MANAGED_DEVICE_IP\"\r\n        }\r\n    ],\r\n    \"templateId\":\"01c849f0-fa36-4d12-afe5-715219857169\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/template-programmer/template/deploy",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"template-programmer",
+						"template",
+						"deploy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Template deployement status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/template-programmer/template/deploy/status/c4409f4e-8957-4b60-ba49-99b0ec6e7536",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"template-programmer",
+						"template",
+						"deploy",
+						"status",
+						"c4409f4e-8957-4b60-ba49-99b0ec6e7536"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get issues",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/issues",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"issues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Network device count",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/network-device/count",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"network-device",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Network health",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/network-health",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"network-health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Client Health",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/client-health",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"client-health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get security advisories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/security-advisory/advisory/aggregate",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"security-advisory",
+						"advisory",
+						"aggregate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import image into DNAC",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n    \"sourceURL\": \"https://software.cisco.com/download/home/286315874/type/282046477/release/Bengaluru-17.6.3\"\r\n}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/image/importation/source/url",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"image",
+						"importation",
+						"source",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Device Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/network-device",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"network-device"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n    'family': 'cat9k'\r\n}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/image/importation",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"image",
+						"importation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Image distribution",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n{\r\n\"deviceUuid\": \"35a82922-97b8-4b6c-be93-a2268eb63b12\",\r\n\"imageUuid\": \"8d9a1065-d743-481a-b506-8b4ca562b51c\"\r\n}\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/image/distribution",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"image",
+						"distribution"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image distribution status",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/api/v1/task/e37232db-fd49-4bec-bd1f-7aaadc467253",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"task",
+						"e37232db-fd49-4bec-bd1f-7aaadc467253"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Image activation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n{\r\n\"deviceUuid\": \"35a82922-97b8-4b6c-be93-a2268eb63b12\",\r\n\"imageUuidList\": [\"73ee3b90-1b7f-47bd-b391-09bf17336180\"]\r\n}\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/dna/intent/api/v1/image/activation/device",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"dna",
+						"intent",
+						"api",
+						"v1",
+						"image",
+						"activation",
+						"device"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image activation status",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{dnac-token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{dnac-ip}}/api/v1/task/57d9512e-0437-4740-9ba4-d5dc8ff9167c",
+					"protocol": "https",
+					"host": [
+						"{{dnac-ip}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"task",
+						"57d9512e-0437-4740-9ba4-d5dc8ff9167c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
